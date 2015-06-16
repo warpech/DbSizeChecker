@@ -41,7 +41,7 @@ namespace Benchmark {
         }
 
         public void CreateData() {
-            var max = 1000;
+            var max = 10000;
             for (var i = 0; i < max; i++) {
                 Db.Transact(() => {
                     new WhatsAppUser() {
