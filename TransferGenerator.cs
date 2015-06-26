@@ -2,7 +2,7 @@ using System;
 using Starcounter;
 using System.IO;
 
-namespace Benchmark {
+namespace VolumeChecker {
     [Database]
     public class Account {
         public DateTime CreatedAt;
@@ -24,11 +24,11 @@ namespace Benchmark {
         private static Random rand = new Random();
 
         public TransferGenerator() {
-            var account = Db.SQL<Account>("SELECT c FROM Benchmark.Account c FETCH ?", 1).First;
+            var account = Db.SQL<Account>("SELECT c FROM VolumeChecker.Account c FETCH ?", 1).First;
             if (account == null) {
                 CreateAccounts();
             }
-            accountsCount = (Int32)Db.SlowSQL<Int64>("SELECT COUNT(*) FROM Benchmark.Account c").First;
+            accountsCount = (Int32)Db.SlowSQL<Int64>("SELECT COUNT(*) FROM VolumeChecker.Account c").First;
         }
 
         public void CreateAccounts() {
@@ -46,12 +46,12 @@ namespace Benchmark {
         public Account GetRandomAccount() {
             var r = new Random();
             Int32 index = r.Next(0, accountsCount - 1);
-            var account = Db.SQL<Account>("SELECT c FROM Benchmark.Account c FETCH ? OFFSET ?", 1, index).First;
+            var account = Db.SQL<Account>("SELECT c FROM VolumeChecker.Account c FETCH ? OFFSET ?", 1, index).First;
             return account;
         }
 
         public Int64 CountObjects() {
-            Int64 obj = Db.SlowSQL<Int64>("SELECT COUNT(*) FROM Benchmark.Transfer c").First;
+            Int64 obj = Db.SlowSQL<Int64>("SELECT COUNT(*) FROM VolumeChecker.Transfer c").First;
             return Convert.ToInt64(obj);
         }
 

@@ -3,15 +3,15 @@ using Starcounter;
 using System.Threading;
 using System.Diagnostics;
 
-namespace Benchmark {
+namespace VolumeChecker {
 
     public class Program {
         TransferGenerator gen;
-        Datahistory datahistory;
+        DataHistory datahistory;
 
         public static void Main() {
             var p = new Program();
-            p.datahistory = new Datahistory();
+            p.datahistory = new DataHistory();
             //p.gen = new Generator();
             p.gen = new TransferGenerator();
             p.ObservePerfmon();
@@ -34,20 +34,31 @@ namespace Benchmark {
 
             process.Start();
 
+            var firstCheck = true;
+
             string output;
             while ((output = process.StandardOutput.ReadLine()) != null) {
                 if (output.StartsWith(" storage_memory.used_pages")) {
-                    Int64 usedPages = Convert.ToInt64(output.Split(delimiterChars)[1]);
+                    Int64 dataSizeKB = Convert.ToInt64(output.Split(delimiterChars)[1]);
 
+                    if(firstCheck) {
+                        if (dataSizeKB > 50000) {
+                            throw new Exception("Database is not empty. Create a new empty database");
+                        }
+                        firstCheck = false;
+                    }
 
 
                     DbSession dbs = new DbSession();
                     dbs.RunAsync(() => {
                         Int64 countObjects = gen.CountObjects();
-                        datahistory.Add(countObjects, usedPages);
+                        datahistory.Add(countObjects, dataSizeKB);
 
                         gen.CreateData();
-                        ObservePerfmon();
+
+                        if (dataSizeKB > 1000000) { //don't grow above 1 GB
+                            ObservePerfmon();
+                        }
                     });
 
                     break;

@@ -9,7 +9,7 @@
     <ProjectGuid>{0C032325-6579-461B-BFF1-5368C31C1C2C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Benchmark</RootNamespace>
+    <RootNamespace>VolumeChecker</RootNamespace>
     <AssemblyName>Benchmark</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -62,10 +62,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datapoint.cs" />
+    <Compile Include="DataMeasurement.cs" />
     <Compile Include="Generator.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataHistory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransferGenerator.cs" />

@@ -2,7 +2,7 @@ using System;
 using Starcounter;
 using System.IO;
 
-namespace Benchmark {
+namespace VolumeChecker {
     [Database]
     public class Country {
         public string Name;
@@ -20,11 +20,11 @@ namespace Benchmark {
         Int32 countriesCount;
 
         public Generator() {
-            var country = Db.SQL<Country>("SELECT c FROM Benchmark.Country c FETCH ?", 1).First;
+            var country = Db.SQL<Country>("SELECT c FROM VolumeChecker.Country c FETCH ?", 1).First;
             if (country == null) {
                 CreateCountries();
             }
-            countriesCount = (Int32)Db.SlowSQL<Int64>("SELECT COUNT(*) FROM Benchmark.Country c").First;
+            countriesCount = (Int32)Db.SlowSQL<Int64>("SELECT COUNT(*) FROM VolumeChecker.Country c").First;
         }
 
         public void CreateCountries() {
@@ -44,12 +44,12 @@ namespace Benchmark {
         public Country GetRandomCountry() {
             var r = new Random();
             Int32 index = r.Next(0, countriesCount - 1);
-            var country = Db.SQL<Country>("SELECT c FROM Benchmark.Country c FETCH ? OFFSET ?", 1, index).First;
+            var country = Db.SQL<Country>("SELECT c FROM VolumeChecker.Country c FETCH ? OFFSET ?", 1, index).First;
             return country;
         }
 
         public Int64 CountObjects() {
-            UInt64 obj = Db.SQL<UInt64>("SELECT ObjectNo FROM Benchmark.WhatsAppUser c ORDER BY ObjectNo DESC FETCH ?", 1).First;
+            UInt64 obj = Db.SQL<UInt64>("SELECT ObjectNo FROM VolumeChecker.WhatsAppUser c ORDER BY ObjectNo DESC FETCH ?", 1).First;
             return Convert.ToInt64(obj);
         }
 

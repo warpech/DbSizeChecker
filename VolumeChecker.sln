@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark", "Benchmark.csproj", "{0C032325-6579-461B-BFF1-5368C31C1C2C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VolumeChecker", "VolumeChecker.csproj", "{0C032325-6579-461B-BFF1-5368C31C1C2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
