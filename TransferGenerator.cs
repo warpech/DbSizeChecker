@@ -3,6 +3,22 @@ using Starcounter;
 using System.IO;
 
 namespace Benchmark {
+    [Database]
+    public class Account {
+        public DateTime CreatedAt;
+        public long AccountNumber;
+    }
+
+    [Database]
+    public class Transfer {
+        public DateTime CreatedAt;
+        public DateTime FinishedAt;
+        public Account FromAccount;
+        public Account ToAccount;
+        public Int64 Amount;
+        public string Description;
+    }
+
     public class TransferGenerator {
         Int32 accountsCount;
         private static Random rand = new Random();

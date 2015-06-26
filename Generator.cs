@@ -3,6 +3,19 @@ using Starcounter;
 using System.IO;
 
 namespace Benchmark {
+    [Database]
+    public class Country {
+        public string Name;
+    }
+
+    [Database]
+    public class WhatsAppUser {
+        public DateTime CreatedAt;
+        public string UserName;
+        public Country Country;
+        public Int64 PhoneNumber;
+    }
+
     public class Generator {
         Int32 countriesCount;
 

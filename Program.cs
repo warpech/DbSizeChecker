@@ -1,48 +1,25 @@
-﻿
-using System;
+﻿using System;
 using Starcounter;
 using System.Threading;
 using System.Diagnostics;
 
 namespace Benchmark {
 
-    [Database]
-    public class Country {
-        public string Name;
-    }
-
-    [Database]
-    public class WhatsAppUser {
-        public DateTime CreatedAt;
-        public string UserName;
-        public Country Country;
-        public Int64 PhoneNumber;
-    }
-
-    [Database]
-    public class Account {
-        public DateTime CreatedAt;
-        public long AccountNumber;
-    }
-
-    [Database]
-    public class Transfer {
-        public DateTime CreatedAt;
-        public DateTime FinishedAt;
-        public Account FromAccount;
-        public Account ToAccount;
-        public Int64 Amount;
-        public string Description;
-    }
-
     public class Program {
         TransferGenerator gen;
+        Datahistory datahistory;
 
         public static void Main() {
             var p = new Program();
+            p.datahistory = new Datahistory();
             //p.gen = new Generator();
             p.gen = new TransferGenerator();
             p.ObservePerfmon();
+
+            Handle.GET("/benchmark/datahistory", () => {
+                var str = p.datahistory.ToCSV();
+                return str;
+            });
         }
 
         public void ObservePerfmon() {
@@ -67,7 +44,7 @@ namespace Benchmark {
                     DbSession dbs = new DbSession();
                     dbs.RunAsync(() => {
                         Int64 countObjects = gen.CountObjects();
-                        SendReport("paypal2", countObjects, usedPages);
+                        datahistory.Add(countObjects, usedPages);
 
                         gen.CreateData();
                         ObservePerfmon();
@@ -84,9 +61,14 @@ namespace Benchmark {
         }
 
         char[] delimiterChars = { '=' };
-
-        void SendReport(string category, Int64 objectsCount, Int64 dbSize) {
-            Http.POST("http://localhost:8282/datapoint/" + category + "/" + objectsCount + "/" + dbSize, (string)null, null);
-        }
     }
 }
+
+
+
+
+
+
+
+
+
