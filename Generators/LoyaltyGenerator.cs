@@ -16,10 +16,10 @@ namespace VolumeChecker {
         public Int64 PhoneNumber;
     }
 
-    public class Generator {
+    public class LoyaltyGenerator {
         Int32 countriesCount;
 
-        public Generator() {
+        public LoyaltyGenerator() {
             var country = Db.SQL<Country>("SELECT c FROM VolumeChecker.Country c FETCH ?", 1).First;
             if (country == null) {
                 CreateCountries();

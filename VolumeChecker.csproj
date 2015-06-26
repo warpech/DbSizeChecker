@@ -10,7 +10,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VolumeChecker</RootNamespace>
-    <AssemblyName>Benchmark</AssemblyName>
+    <AssemblyName>VolumeChecker</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -63,13 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataMeasurement.cs" />
-    <Compile Include="Generator.cs">
+    <Compile Include="Generators\LoyaltyGenerator.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataHistory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TransferGenerator.cs" />
+    <Compile Include="Generators\PaypalGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="countries.txt" />

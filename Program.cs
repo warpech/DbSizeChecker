@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Starcounter;
 using System.Threading;
 using System.Diagnostics;
@@ -6,17 +6,19 @@ using System.Diagnostics;
 namespace VolumeChecker {
 
     public class Program {
-        TransferGenerator gen;
+        PaypalGenerator gen;
         DataHistory datahistory;
 
         public static void Main() {
+            Console.WriteLine("Starting...");
+
             var p = new Program();
             p.datahistory = new DataHistory();
-            //p.gen = new Generator();
-            p.gen = new TransferGenerator();
+            //p.gen = new LoyaltyGenerator();
+            p.gen = new PaypalGenerator();
             p.ObservePerfmon();
 
-            Handle.GET("/benchmark/datahistory", () => {
+            Handle.GET("/VolumeChecker/datahistory", () => {
                 var str = p.datahistory.ToCSV();
                 return str;
             });
@@ -34,30 +36,23 @@ namespace VolumeChecker {
 
             process.Start();
 
-            var firstCheck = true;
-
             string output;
             while ((output = process.StandardOutput.ReadLine()) != null) {
                 if (output.StartsWith(" storage_memory.used_pages")) {
                     Int64 dataSizeKB = Convert.ToInt64(output.Split(delimiterChars)[1]);
-
-                    if(firstCheck) {
-                        if (dataSizeKB > 50000) {
-                            throw new Exception("Database is not empty. Create a new empty database");
-                        }
-                        firstCheck = false;
-                    }
-
 
                     DbSession dbs = new DbSession();
                     dbs.RunAsync(() => {
                         Int64 countObjects = gen.CountObjects();
                         datahistory.Add(countObjects, dataSizeKB);
 
-                        gen.CreateData();
-
-                        if (dataSizeKB > 1000000) { //don't grow above 1 GB
+                        if (dataSizeKB < 1000000) { //don't grow above 1 GB
+                            Console.WriteLine("Continuing...");
+                            gen.CreateData();
                             ObservePerfmon();
+                        }
+                        else {
+                            Console.WriteLine("Top size achieved");
                         }
                     });
 
