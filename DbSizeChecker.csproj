@@ -9,8 +9,8 @@
     <ProjectGuid>{0C032325-6579-461B-BFF1-5368C31C1C2C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VolumeChecker</RootNamespace>
-    <AssemblyName>VolumeChecker</AssemblyName>
+    <RootNamespace>DbSizeChecker</RootNamespace>
+    <AssemblyName>DbSizeChecker</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <UseVSHostingProcess>false</UseVSHostingProcess>

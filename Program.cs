@@ -18,7 +18,7 @@ namespace VolumeChecker {
             p.gen = new PaypalGenerator();
             p.ObservePerfmon();
 
-            Handle.GET("/VolumeChecker/datahistory", () => {
+            Handle.GET("/DbSizeChecker/datahistory", () => {
                 var str = p.datahistory.ToCSV();
                 return str;
             });
